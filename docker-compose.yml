@@ -1,0 +1,16 @@
+version: "3.9"
+services:
+  nginx:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx
+    ports:
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+#      - /opt/docker/infra/nginx/config:/etc/nginx/conf.d:ro
+#      - /opt/docker/infra/nginx/log:/var/log/nginx:rw
+#      - /opt/docker/infra/nginx/certs:/etc/nginx/certs:ro
+      - nginx_data:/data
+      - nginx_tls:/etc/letsencrypt
+    restart: unless-stopped
