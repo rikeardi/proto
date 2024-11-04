@@ -14,3 +14,7 @@ services:
       - nginx_data:/data
       - nginx_tls:/etc/letsencrypt
     restart: unless-stopped
+
+volumes:
+  nginx_data:
+  nginx_tls:
