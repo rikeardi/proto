@@ -7,7 +7,7 @@ COPY . /app/backend/
 
 RUN apk add --no-cache python3=3.12.7-r0 py3-pip=24.0-r2
 RUN python3 -m venv /app/backend/.venv
-RUN . /app/backend/.venv/bin/activate
+RUN source /app/backend/.venv/bin/activate
 RUN pip install -r /app/backend/requirements.txt
 
 ENTRYPOINT [ "python" ]
