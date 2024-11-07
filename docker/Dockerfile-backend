@@ -5,7 +5,7 @@ LABEL maintainer="Risto Lievonen"
 ENV PYTHON_VERSION 3.12.7-r0
 ENV PIP_VERSION 24.0-r2
 
-COPY backend /app/
+COPY ./backend /app/
 
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} \
   && pip install --no-cache-dir -r /app/backend/requirements.txt --break-system-packages \
