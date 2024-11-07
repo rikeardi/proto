@@ -1,7 +1,7 @@
 #!/bin/sh
 
 cd /app/data/backend
-python manage.py runserver 0.0.0.0:8000 &
+./docker-entrypoint.sh &
 
 cd /app/data/frontend
 npm run dev
