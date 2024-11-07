@@ -7,24 +7,22 @@ ENV PIP_VERSION=24.0-r2
 ENV NODE_VERSION=20.15.1-r0
 ENV NPM_VERSION=10.8.0-r0
 
-COPY . /app
+COPY . /app/data
 
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} \
   && pip install --no-cache-dir -r /app/backend/requirements.txt --break-system-packages \
   && apk add --no-cache nodejs=${NODE_VERSION} npm=${NPM_VERSION}
 
-WORKDIR /app/frontend
+WORKDIR /app/data/frontend
 RUN npm install \
   && npm run build
 
-RUN chown -R app:app /app \
-  && /app/post-install.sh \
-  && chmod +x /app/startserver.sh
+RUN /app/post-install.sh
 #ENTRYPOINT [ "python" ]
 
 USER app
-WORKDIR /app
+WORKDIR /app/data
 
 EXPOSE 5000
 EXPOSE 8000
-CMD ["/app/startserver.sh"]
+CMD ["/app/data/startserver.sh"]
