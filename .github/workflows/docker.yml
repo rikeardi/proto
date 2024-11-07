@@ -13,21 +13,23 @@ env:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
       id-token: write
+    strategy:
+      fail-fast: false
+      matrix:
+        stack:
+          - fullstack
+          - frontend
+          - backend
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
     
-    - id: vars
-      run: |
-        echo ::set-output name=alpine_version::$(grep '^FROM ghcr.io/ironpeakservices/iron-alpine/iron-alpine' Dockerfile | cut -d ' ' -f 2 | cut -d ':' -f 2)
-
     - name: Install cosign
       if: github.event_name != 'pull_request'
       uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
@@ -49,16 +51,17 @@ jobs:
       id: meta
       uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
       with:
-        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.stack }}
         tags: |
           type=raw,value=latest,enable={{ is_default_branch }}
-          type=raw,enable=true,value=alpine-${{ steps.vars.outputs.alpine_version }}
+          type=raw,value=v${{ env.VERSION_NUMBER }}
 
     - name: Build and push Docker image
       id: build-and-push
       uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
       with:
-        context: .
+        context: ./docker
+        file: Dockerfile-${{ matrix.stack }}
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}

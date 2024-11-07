@@ -5,15 +5,16 @@ LABEL maintainer="Risto Lievonen"
 ENV PYTHON_VERSION 3.12.7-r0
 ENV PIP_VERSION 24.0-r2
 
-RUN mkdir /app/backend
-COPY . /app/backend/
+COPY ../backend /app/
 
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION}
 RUN pip install -r /app/backend/requirements.txt --break-system-packages
 
-#ENTRYPOINT [ "python" ]
+RUN chown -R app:app /app
+ENTRYPOINT [ "python" ]
 
 USER app
+WORKDIR /app
 
 EXPOSE 8000
-CMD ["python", "/app/backend/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["/app/backend/manage.py", "runserver", "0.0.0.0:8000"]
