@@ -17,11 +17,9 @@ WORKDIR /app/frontend
 RUN npm install \
   && npm run build
 
-ARG TRIVY
 RUN chown -R app:app /app \
-  && if [ "$TRIVY" != "True" ]; then \
-    /app/post-install.sh;\
-  fi
+  && chmod +x /app/startserver.sh \
+  && /app/post-install.sh
 #ENTRYPOINT [ "python" ]
 
 USER app
