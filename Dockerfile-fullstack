@@ -18,8 +18,8 @@ RUN npm install \
   && npm run build
 
 RUN chown -R app:app /app \
-  && chmod +x /app/startserver.sh \
-  && /app/post-install.sh
+  && /app/post-install.sh \
+  && chmod +x /app/startserver.sh
 #ENTRYPOINT [ "python" ]
 
 USER app
