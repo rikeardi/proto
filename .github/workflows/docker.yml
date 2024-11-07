@@ -54,7 +54,7 @@ jobs:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.stack }}
         tags: |
           type=raw,value=latest,enable={{ is_default_branch }}
-          type=raw,value=v${{ env.VERSION_NUMBER }}
+          type=raw,value=v${{ vars.VERSION_NUMBER }}
 
     - name: Build and push Docker image
       id: build-and-push
