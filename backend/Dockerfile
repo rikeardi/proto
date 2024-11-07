@@ -2,10 +2,13 @@ FROM ghcr.io/ironpeakservices/iron-alpine/iron-alpine:3.20.3
 
 LABEL maintainer="Risto Lievonen"
 
+ENV PYTHON_VERSION 3.12.7-r0
+ENV PIP_VERSION 24.0-r2
+
 RUN mkdir /app/backend
 COPY . /app/backend/
 
-RUN apk add --no-cache python3=3.12.7-r0 py3-pip=24.0-r2
+RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION}
 RUN pip install -r /app/backend/requirements.txt --break-system-packages
 
 #ENTRYPOINT [ "python" ]
