@@ -8,6 +8,7 @@ ENV NODE_VERSION 20.15.1-r0
 ENV NPM_VERSION 10.8.0-r0
 
 COPY . /app
+RUN chown -R app:app /app
 
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION}
 RUN pip install -r /app/backend/requirements.txt --break-system-packages
