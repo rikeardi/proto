@@ -5,13 +5,13 @@ LABEL maintainer="Risto Lievonen"
 ENV NODE_VERSION 20.15.1-r0
 ENV NPM_VERSION 10.8.0-r0
 
-COPY ../frontend /app/
+COPY frontend /app/
 
 RUN apk add --no-cache nodejs=${NODE_VERSION} npm=${NPM_VERSION}
 WORKDIR /app/frontend
-RUN npm install
+RUN npm install \
+  && chown -R app:app /app
 
-RUN chown -R app:app /app
 ENTRYPOINT [ "npm" ]
 
 USER app
