@@ -10,7 +10,8 @@ COPY ./backend /app/backend/
 
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} \
   && pip install --no-cache-dir -r /app/backend/requirements.txt --break-system-packages \
-  && chown -R app:app /app
+  && chown -R app:app /app \
+  && /app/post-install.sh
 
 ENTRYPOINT [ "python" ]
 

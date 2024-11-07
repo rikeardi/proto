@@ -10,7 +10,8 @@ COPY ./frontend /app/
 RUN apk add --no-cache nodejs=${NODE_VERSION} npm=${NPM_VERSION}
 WORKDIR /app/frontend
 RUN npm install \
-  && chown -R app:app /app
+  && chown -R app:app /app \
+  && /app/post-install.sh
 
 ENTRYPOINT [ "npm" ]
 

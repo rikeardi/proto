@@ -17,7 +17,8 @@ WORKDIR /app/frontend
 RUN npm install \
   && npm run build
 
-RUN chown -R app:app /app
+RUN chown -R app:app /app \
+  && /app/post-install.sh
 #ENTRYPOINT [ "python" ]
 
 USER app
