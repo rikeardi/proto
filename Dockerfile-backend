@@ -2,8 +2,8 @@ FROM ghcr.io/ironpeakservices/iron-alpine/iron-alpine:3.20.3
 
 LABEL maintainer="Risto Lievonen"
 
-ENV PYTHON_VERSION 3.12.7-r0
-ENV PIP_VERSION 24.0-r2
+ENV PYTHON_VERSION=3.12.7-r0
+ENV PIP_VERSION=24.0-r2
 
 COPY ./backend /app/
 
