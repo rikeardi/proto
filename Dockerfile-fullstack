@@ -10,7 +10,7 @@ ENV NPM_VERSION=10.8.0-r0
 COPY . /app/data
 
 RUN apk add --no-cache python3=${PYTHON_VERSION} py3-pip=${PIP_VERSION} \
-  && pip install --no-cache-dir -r /app/backend/requirements.txt --break-system-packages \
+  && pip install --no-cache-dir -r /app/data/backend/requirements.txt --break-system-packages \
   && apk add --no-cache nodejs=${NODE_VERSION} npm=${NPM_VERSION}
 
 WORKDIR /app/data/frontend
