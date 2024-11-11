@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django_kit_fos import trigger_pattern
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+] + trigger_pattern

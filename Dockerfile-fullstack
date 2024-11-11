@@ -18,11 +18,11 @@ RUN npm install \
   && npm run build
 
 RUN /app/post-install.sh
-#ENTRYPOINT [ "python" ]
 
 USER app
 WORKDIR /app/data
 
 EXPOSE 5000
 EXPOSE 8000
-CMD ["/app/data/startserver.sh"]
+#CMD ["/app/data/startserver.sh"]
+ENTRYPOINT ["/app/data/startserver.sh"]
