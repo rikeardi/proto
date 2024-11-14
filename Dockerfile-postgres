@@ -1,0 +1,28 @@
+FROM ghcr.io/ironpeakservices/iron-alpine/iron-alpine:3.20.3
+
+LABEL maintainer="Risto Lievonen"
+
+ENV PSQL_VERSION=16.4-r0
+
+RUN apk add --no-cache openrc postgresql16 postgresql16-contrib postgresql16-openrc \
+    && mkdir -p /run/openrc \
+    && touch /run/openrc/softlevel \
+    && addgroup -g 70 -S postgres \
+    && adduser -u 70 -S -D -G postgres -H -h /var/lib/postgresql -s /bin/sh postgres \
+    && rc-update add postgresql \
+    && rc-status \
+    && rc-service postgresql start \
+    && install --verbose --directory --owner postgres --group postgres --mode 1777 /var/lib/postgresql
+
+ENV LANG=en_US.utf8
+
+RUN /app/post-install.sh
+
+USER postgres
+
+RUN psql -c create user ${DATABASE_USER} with encrypted password '${DATABASE_PASSWORD}'; \
+    && psql -c create database ${DATABASE_DATABASE}; \
+    && psql -c grant all privileges on database ${DATABASE_DATABASE} to ${DATABASE_USER};
+
+EXPOSE 4321
+ENTRYPOINT ["/bin/sh"]
